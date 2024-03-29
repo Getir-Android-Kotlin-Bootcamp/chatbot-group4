@@ -9,6 +9,5 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         FragmentChatBinding.inflate(inflater, container, false)
 
     override fun initializeViews() {
-
     }
 }
