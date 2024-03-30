@@ -7,6 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
+import com.getir.patika.chatapp.ui.ChatFragment
 import com.getir.patika.chatapp.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 

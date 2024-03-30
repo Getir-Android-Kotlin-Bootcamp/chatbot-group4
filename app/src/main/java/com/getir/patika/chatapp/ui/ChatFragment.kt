@@ -1,4 +1,4 @@
-package com.getir.patika.chatapp
+package com.getir.patika.chatapp.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

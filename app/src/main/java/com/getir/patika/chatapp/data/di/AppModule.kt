@@ -1,8 +1,11 @@
 package com.getir.patika.chatapp.data.di
 
 import android.content.Context
+import com.getir.patika.chatapp.data.ChatRepository
 import com.getir.patika.chatapp.data.GeminiRepository
+import com.getir.patika.chatapp.data.impl.ChatDataSource
 import com.getir.patika.chatapp.data.impl.GeminiDataSource
+import com.getir.patika.chatapp.data.room.ChatDao
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.BlockThreshold
 import com.google.ai.client.generativeai.type.HarmCategory
@@ -20,7 +23,7 @@ import com.getir.patika.chatapp.R.string as AppText
 
 @Module
 @InstallIn(SingletonComponent::class)
-object GeminiModule {
+object AppModule {
     private val harassmentSafety = SafetySetting(HarmCategory.HARASSMENT, BlockThreshold.ONLY_HIGH)
     private val hateSpeechSafety =
         SafetySetting(HarmCategory.HATE_SPEECH, BlockThreshold.MEDIUM_AND_ABOVE)
@@ -49,9 +52,18 @@ object GeminiModule {
 
     @Singleton
     @Provides
-    fun bindGeminiService(
+    fun bindGeminiRepository(
         generativeModel: GenerativeModel,
         ioDispatcher: CoroutineDispatcher
     ): GeminiRepository =
         GeminiDataSource(generativeModel, ioDispatcher)
+
+    @Singleton
+    @Provides
+    fun bindChatRepository(
+        chatDao: ChatDao,
+        geminiRepository: GeminiRepository,
+        ioDispatcher: CoroutineDispatcher,
+    ) : ChatRepository =
+        ChatDataSource(chatDao, geminiRepository, ioDispatcher)
 }

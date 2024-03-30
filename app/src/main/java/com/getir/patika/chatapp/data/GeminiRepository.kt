@@ -1,7 +1,8 @@
 package com.getir.patika.chatapp.data
 
-import com.getir.patika.chatapp.data.model.MessageResponse
+import com.google.ai.client.generativeai.type.Content
+
 
 interface GeminiRepository {
-    suspend fun getMessage(history: List<String>, message: String): Result<MessageResponse>
+    suspend fun getResponse(history: List<Content>, message: String): Result<String>
 }

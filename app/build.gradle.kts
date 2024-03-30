@@ -56,4 +56,7 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.ktx)
     ksp(libs.hilt.compiler)
     implementation(libs.generativeai)
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.paging)
 }
