@@ -55,4 +55,5 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.lifecycle.viewmodel.ktx)
     ksp(libs.hilt.compiler)
+    implementation(libs.generativeai)
 }

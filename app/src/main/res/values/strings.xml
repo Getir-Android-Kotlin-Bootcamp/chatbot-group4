@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">ChatApp</string>
-    <style name="gemini_api_key">AIzaSyBL2ww9hHwNiErNsKTPMUM4Hv4sGlN8RoM</style>
+    <string name="gemini_api_key">AIzaSyBL2ww9hHwNiErNsKTPMUM4Hv4sGlN8RoM</string>
 </resources>
