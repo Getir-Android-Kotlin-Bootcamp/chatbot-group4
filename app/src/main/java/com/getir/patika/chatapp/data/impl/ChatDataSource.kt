@@ -5,6 +5,7 @@ import com.getir.patika.chatapp.data.GeminiRepository
 import com.getir.patika.chatapp.data.ext.runCatchingWithContext
 import com.getir.patika.chatapp.data.model.Message
 import com.getir.patika.chatapp.data.model.MessageEntity
+import com.getir.patika.chatapp.data.model.Role
 import com.getir.patika.chatapp.data.model.toContent
 import com.getir.patika.chatapp.data.model.toMessage
 import com.getir.patika.chatapp.data.model.toMessageEntity
@@ -25,9 +26,9 @@ class ChatDataSource @Inject constructor(
 
             val response = geminiRepository.getResponse(recentMessages, message).getOrThrow()
 
-            val messageEntity = Message(message = response).toMessageEntity()
-
-            chatDao.insertMessage(messageEntity)
+            val modelMessageEntity = Message(message = response).toMessageEntity()
+            val userMessageEntity = Message(message = message, role = Role.USER).toMessageEntity()
+            chatDao.insertModelAndUserMessage(userMessageEntity, modelMessageEntity)
         }
 
     override suspend fun getAllMessages(): Result<Flow<List<Message>>> =

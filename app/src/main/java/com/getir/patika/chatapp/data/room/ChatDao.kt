@@ -3,6 +3,7 @@ package com.getir.patika.chatapp.data.room
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import com.getir.patika.chatapp.data.model.MessageEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -16,4 +17,9 @@ interface ChatDao {
 
     @Insert
     suspend fun insertMessage(message: MessageEntity)
+    @Transaction
+    suspend fun insertModelAndUserMessage(userMessage: MessageEntity, modelMessage: MessageEntity) {
+        insertMessage(userMessage)
+        insertMessage(modelMessage)
+    }
 }
