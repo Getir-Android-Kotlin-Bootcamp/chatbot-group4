@@ -58,5 +58,6 @@ dependencies {
     implementation(libs.generativeai)
     implementation(libs.androidx.room.runtime)
     annotationProcessor(libs.androidx.room.compiler)
+    api(libs.kotlinx.coroutines.test)
     ksp(libs.androidx.room.paging)
 }

@@ -16,6 +16,7 @@ hilt = "2.51"
 ksp = "1.9.23-1.0.19"
 lifecycle_version = "2.7.0"
 room_version = "2.6.1"
+kotlinxCoroutines = "1.8.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -35,6 +36,7 @@ lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-view
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room_version" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room_version" }
 androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room_version" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
