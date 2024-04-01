@@ -49,4 +49,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_arrow" />
 
+    <ImageView
+        android:id="@+id/animation"
+        android:layout_width="110dp"
+        android:layout_height="70dp"
+        android:layout_margin="20dp"
+        android:src="@drawable/typing_animation_drawable"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
