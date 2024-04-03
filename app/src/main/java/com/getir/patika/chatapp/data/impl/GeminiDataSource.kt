@@ -17,7 +17,7 @@ class GeminiDataSource @Inject constructor(
         message: String
     ): Result<String> = runCatchingWithContext(ioDispatcher) {
 
-        val chat = generativeModel.startChat(history = history)
+        val chat = generativeModel.startChat()
 
         val response = chat.sendMessage(message)
 

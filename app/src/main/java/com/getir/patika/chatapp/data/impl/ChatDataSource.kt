@@ -26,15 +26,13 @@ class ChatDataSource @Inject constructor(
             chatDao.insertMessage(userMessageEntity)
 
             val recentMessages = chatDao.getLastMessages().map(MessageEntity::toContent)
-
+            println("Recent messages: ${recentMessages[0].role}")
             val response = geminiRepository.getResponse(recentMessages, message).getOrThrow()
-
+            println("Response: $response")
             val modelMessageEntity = Message(message = response).toMessageEntity()
             chatDao.insertMessage(modelMessageEntity)
         }
 
-    override suspend fun getAllMessages(): Result<Flow<List<Message>>> =
-        runCatchingWithContext(ioDispatcher) {
-            chatDao.getAllMessages().map { messages -> messages.map(MessageEntity::toMessage) }
-        }
+    override fun getAllMessages(): Flow<List<Message>> =
+        chatDao.getAllMessages().map { messages -> messages.map(MessageEntity::toMessage) }
 }
