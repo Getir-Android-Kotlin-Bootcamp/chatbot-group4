@@ -12,9 +12,8 @@ import com.getir.patika.chatapp.databinding.ItemMessageUserBinding
 import com.getir.patika.chatapp.util.ROLE_MODEL
 import com.getir.patika.chatapp.util.ROLE_USER
 
-class MessageAdapter(val messages: List<Message>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-
+class MessageAdapter(val messages: List<Message>) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class UserViewHolder(val binding: ItemMessageUserBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -23,24 +22,35 @@ class MessageAdapter(val messages: List<Message>) : RecyclerView.Adapter<Recycle
 
         }
 
-        }
+    }
 
-    inner class ModelViewHolder(val binding: ItemMessageModelBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class ModelViewHolder(val binding: ItemMessageModelBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(message: Message) {
             binding.tvBubbleModel.text = message.message
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        when(viewType){
+        when (viewType) {
             ROLE_USER -> {
-                val binding = ItemMessageUserBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+                val binding = ItemMessageUserBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
                 return UserViewHolder(binding)
             }
+
             ROLE_MODEL -> {
-                val binding = ItemMessageModelBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+                val binding = ItemMessageModelBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
                 return ModelViewHolder(binding)
             }
+
             else -> throw IllegalArgumentException("Unknown view type: $viewType")
 
         }
@@ -51,11 +61,11 @@ class MessageAdapter(val messages: List<Message>) : RecyclerView.Adapter<Recycle
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val message = messages[position]
-       when (holder){
-           is UserViewHolder -> holder.bind(message)
-           is ModelViewHolder -> holder.bind(message)
-           else -> throw IllegalArgumentException("Unknown view holder type: ${holder.javaClass.simpleName}")
-       }
+        when (holder) {
+            is UserViewHolder -> holder.bind(message)
+            is ModelViewHolder -> holder.bind(message)
+            else -> throw IllegalArgumentException("Unknown view holder type: ${holder.javaClass.simpleName}")
+        }
     }
 
 
@@ -64,7 +74,7 @@ class MessageAdapter(val messages: List<Message>) : RecyclerView.Adapter<Recycle
     }
 
     override fun getItemCount(): Int {
-       return messages.size
+        return messages.size
     }
 
 }
