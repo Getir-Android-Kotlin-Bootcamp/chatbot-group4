@@ -1,29 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_marginVertical="8dp">
 
     <TextView
-
-        android:id="@+id/tv_bubble_model"
+        android:id="@+id/tv_model"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/bubble_model_background"
+        android:background="@drawable/bg_chat_bubble_model"
         android:fontFamily="@font/poppins"
-        android:padding="20dp"
-        android:text="Model Messageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        android:maxWidth="280dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="12dp"
         android:textColor="@color/black"
         android:textSize="14sp"
         app:layout_constrainedWidth="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        tools:text="Hello Again ITs me!Hello Again ITs me!Hello Again ITs me!Hello Again ITs me!Hello Again ITs me!Hello Again ITs me!Hello Again ITs me!Hello Again ITs me!" />
 
-
-        />
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

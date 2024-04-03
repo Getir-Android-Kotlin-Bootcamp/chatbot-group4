@@ -1,0 +1,26 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <View
+        android:id="@+id/dot1"
+        android:layout_width="10dp"
+        android:layout_height="10dp" />
+
+    <View
+        android:id="@+id/dot2"
+        android:layout_width="10dp"
+        android:layout_height="10dp" />
+
+    <View
+        android:id="@+id/dot3"
+        android:layout_width="10dp"
+        android:layout_height="10dp" />
+
+    <View
+        android:id="@+id/dot4"
+        android:layout_width="10dp"
+        android:layout_height="10dp" />
+
+    <View
+        android:id="@+id/dot5"
+        android:layout_width="10dp"
+        android:layout_height="10dp" />
+</merge>
