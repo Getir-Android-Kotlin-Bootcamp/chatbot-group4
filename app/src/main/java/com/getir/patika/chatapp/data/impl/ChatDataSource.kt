@@ -22,13 +22,15 @@ class ChatDataSource @Inject constructor(
 ) : ChatRepository {
     override suspend fun sendMessage(message: String): Result<Unit> =
         runCatchingWithContext(ioDispatcher) {
+            val userMessageEntity = Message(message = message, role = Role.USER).toMessageEntity()
+            chatDao.insertMessage(userMessageEntity)
+
             val recentMessages = chatDao.getLastMessages().map(MessageEntity::toContent)
 
             val response = geminiRepository.getResponse(recentMessages, message).getOrThrow()
 
             val modelMessageEntity = Message(message = response).toMessageEntity()
-            val userMessageEntity = Message(message = message, role = Role.USER).toMessageEntity()
-            chatDao.insertModelAndUserMessage(userMessageEntity, modelMessageEntity)
+            chatDao.insertMessage(modelMessageEntity)
         }
 
     override suspend fun getAllMessages(): Result<Flow<List<Message>>> =

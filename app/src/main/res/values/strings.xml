@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">ChatApp</string>
     <string name="gemini_api_key">AIzaSyBL2ww9hHwNiErNsKTPMUM4Hv4sGlN8RoM</string>
+    <string name="food_runs_typing">Food Runs typing…</string>
+    <string name="chat_button">chatButton</string>
+    <string name="back_button">back button</string>
+    <string name="ring_button">ring_button</string>
+    <string name="chat">Chat</string>
 </resources>

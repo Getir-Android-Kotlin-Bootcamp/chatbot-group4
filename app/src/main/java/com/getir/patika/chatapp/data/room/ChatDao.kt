@@ -17,6 +17,7 @@ interface ChatDao {
 
     @Insert
     suspend fun insertMessage(message: MessageEntity)
+
     @Transaction
     suspend fun insertModelAndUserMessage(userMessage: MessageEntity, modelMessage: MessageEntity) {
         insertMessage(userMessage)
