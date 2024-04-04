@@ -20,5 +20,6 @@ object Utils {
         
     """.trimIndent()
 
-    val ModelPreText = "Hello! my name is Food Couriers.\nYou can ask me anything."
+    const val MODEL_PRE_TEXT =
+        "Welcome to Food Couriers!\nHow can I support you today?"
 }

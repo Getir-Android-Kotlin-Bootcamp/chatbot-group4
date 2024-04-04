@@ -1,11 +1,9 @@
 package com.getir.patika.chatapp.ui
 
 import android.content.Context
-import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -15,11 +13,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.getir.patika.chatapp.databinding.FragmentChatBinding
+import com.getir.patika.chatapp.ext.keyboardVisibilityFlow
+import com.getir.patika.chatapp.ext.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -49,7 +46,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
             scopeWithLifecycle {
                 contentView.keyboardVisibilityFlow().collectLatest { (isKeyboardVisible, height) ->
                     btnAttach.visibility = if (isKeyboardVisible) View.GONE else View.VISIBLE
-                    handleBottomBarMagin(height, isKeyboardVisible)
+                    handleBottomBarMargin(height, isKeyboardVisible)
                 }
             }
 
@@ -57,6 +54,16 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
                 beforeSendActions()
                 viewModel.onSend(editTextMessage.text.toString())
                 editTextMessage.text.clear()
+            }
+
+            btnAttach.setOnClickListener {
+                it.makeToast("Attach button clicked")
+            }
+            btnBack.setOnClickListener {
+                it.makeToast("Back button clicked")
+            }
+            btnRing.setOnClickListener {
+                it.makeToast("Ring button clicked")
             }
         }
     }
@@ -100,24 +107,8 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         }
     }
 
-    private fun View.keyboardVisibilityFlow(): Flow<Pair<Boolean, Int>> = callbackFlow {
-        val globalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
-            val rect = Rect()
-            getWindowVisibleDisplayFrame(rect)
-            val screenHeight = rootView.height
-            val keypadHeight = screenHeight - rect.bottom
-            val isKeyboardVisible = keypadHeight > screenHeight * 0.15
-            trySend(isKeyboardVisible to keypadHeight)
-        }
 
-        viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
-
-        awaitClose {
-            viewTreeObserver.removeOnGlobalLayoutListener(globalLayoutListener)
-        }
-    }
-
-    private fun FragmentChatBinding.handleBottomBarMagin(
+    private fun FragmentChatBinding.handleBottomBarMargin(
         keypadHeight: Int,
         isVisible: Boolean
     ) {

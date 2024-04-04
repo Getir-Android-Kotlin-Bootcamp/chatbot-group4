@@ -10,7 +10,7 @@ import com.getir.patika.chatapp.data.model.Role
 import com.getir.patika.chatapp.data.model.toMessage
 import com.getir.patika.chatapp.data.model.toMessageEntity
 import com.getir.patika.chatapp.data.room.ChatDao
-import com.getir.patika.chatapp.util.Utils.ModelPreText
+import com.getir.patika.chatapp.util.Utils.MODEL_PRE_TEXT
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -49,7 +49,7 @@ class ChatDataSource @Inject constructor(
     override suspend fun sendModelMessageForFirstTime() {
         val firstMessageState = preferencesRepository.getFirstMessageState()
         if (firstMessageState) return
-        val modelMessageEntity = Message(message = ModelPreText, isLoaded = true).toMessageEntity()
+        val modelMessageEntity = Message(message = MODEL_PRE_TEXT, isLoaded = true).toMessageEntity()
         chatDao.insertMessage(modelMessageEntity)
         preferencesRepository.setFirstMessageState(true)
     }

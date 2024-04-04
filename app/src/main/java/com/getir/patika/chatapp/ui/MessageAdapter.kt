@@ -96,8 +96,10 @@ class MessageAdapter : ListAdapter<Message, RecyclerView.ViewHolder>(ItemDiff) {
 
     private val listUpdateCallback =
         AsyncListDiffer.ListListener<Message> { previousList, currentList ->
-            if (currentList.size > previousList.size) {
-                recyclerView?.scrollToPosition(currentList.size - 1)
+            if (currentList.size >= previousList.size) {
+                recyclerView?.post {
+                    recyclerView?.scrollToPosition(currentList.size - 1)
+                }
             }
         }
 

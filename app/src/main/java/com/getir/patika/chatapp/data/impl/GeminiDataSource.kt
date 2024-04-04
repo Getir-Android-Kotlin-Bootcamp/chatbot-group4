@@ -14,7 +14,6 @@ class GeminiDataSource @Inject constructor(
 ) : GeminiRepository {
     override suspend fun getResponse(message: String): Result<String> =
         runCatchingWithContext(ioDispatcher) {
-            Log.d("GeminiDataSource", "getResponse: $message")
             val chat = generativeModel.startChat()
             chat.sendMessage(message).text ?: throw GeminiTextNotFoundException()
         }
