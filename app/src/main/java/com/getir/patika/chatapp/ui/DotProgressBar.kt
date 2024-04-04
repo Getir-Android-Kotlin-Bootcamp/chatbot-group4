@@ -13,6 +13,13 @@ import androidx.core.view.children
 import com.getir.patika.chatapp.R
 import kotlinx.coroutines.*
 
+/**
+ * Custom view representing a dot progress bar.
+ *
+ * @param context The context in which the view is created.
+ * @param attrs The attribute set used to inflate the view.
+ * @param defStyleAttr The default style attribute.
+ */
 class DotProgressBar @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
@@ -66,6 +73,9 @@ class DotProgressBar @JvmOverloads constructor(
         startAnimation()
     }
 
+    /**
+     * Starts the animation for the dot progress bar.
+     */
     private fun startAnimation() {
         scope.launch {
             val dots = children.toList()
@@ -80,6 +90,9 @@ class DotProgressBar @JvmOverloads constructor(
         }
     }
 
+    /**
+     * Stops the animation for the dot progress bar.
+     */
     fun stopAnimation() {
         scope.cancel()
     }

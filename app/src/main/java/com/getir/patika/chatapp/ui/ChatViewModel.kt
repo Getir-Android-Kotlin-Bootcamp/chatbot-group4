@@ -18,20 +18,30 @@ data class ChatUiState(
     val isTextFieldEnabled: Boolean = true
 )
 
+/**
+ * ViewModel for managing chat-related operations and UI state.
+ */
 @HiltViewModel
 class ChatViewModel @Inject constructor(
     private val chatRepository: ChatRepository
 ) : BaseViewModel() {
+
     private val _uiState = MutableStateFlow(ChatUiState())
     val uiState = _uiState.asStateFlow()
 
     private val _messageState = MutableStateFlow(listOf<ChatItem>())
     val messageState = _messageState.asStateFlow()
 
+    /**
+     * Updates the query in the UI state.
+     */
     fun onQueryChanged(query: String) {
         _uiState.update { it.copy(query = query) }
     }
 
+    /**
+     * Observes chat messages from the repository.
+     */
     fun observeMessages() = launchCatching {
         chatRepository.getAllMessages()
             .map { it.map<Message, ChatItem> { message: Message -> ChatItem.ChatMessage(message) } }
@@ -44,10 +54,16 @@ class ChatViewModel @Inject constructor(
             }
     }
 
+    /**
+     * Retrieves the state indicating whether the first message has been sent.
+     */
     fun getFirstMessageState() = launchCatching {
         chatRepository.sendModelMessageForFirstTime()
     }
 
+    /**
+     * Sends a message.
+     */
     fun onSend(message: String) {
         _uiState.update { it.copy(isTextFieldEnabled = false) }
         viewModelScope.launch {

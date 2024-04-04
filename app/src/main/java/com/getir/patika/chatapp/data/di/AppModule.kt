@@ -31,6 +31,9 @@ import kotlinx.coroutines.SupervisorJob
 import javax.inject.Singleton
 import com.getir.patika.chatapp.R.string as AppText
 
+/**
+ * Dagger module providing dependencies related to data layer.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
@@ -45,6 +48,9 @@ object AppModule {
         maxOutputTokens = 1500
     }
 
+    /**
+     * Provides a singleton instance of [GenerativeModel] for generating text messages.
+     */
     @Singleton
     @Provides
     fun provideGenerativeModelForText(@ApplicationContext context: Context): GenerativeModel =
@@ -55,10 +61,16 @@ object AppModule {
             generationConfig = config
         )
 
+    /**
+     * Provides the IO dispatcher for performing disk IO operations.
+     */
     @Singleton
     @Provides
     fun provideIODispatcher(): CoroutineDispatcher = Dispatchers.IO
 
+    /**
+     * Provides a singleton instance of [DataStore] for storing user preferences.
+     */
     @Singleton
     @Provides
     fun providePreferencesDataStore(@ApplicationContext context: Context): DataStore<Preferences> {
@@ -71,6 +83,9 @@ object AppModule {
         )
     }
 
+    /**
+     * Binds [GeminiRepository] implementation.
+     */
     @Singleton
     @Provides
     fun bindGeminiRepository(
@@ -79,12 +94,18 @@ object AppModule {
     ): GeminiRepository =
         GeminiDataSource(generativeModel, ioDispatcher)
 
+    /**
+     * Binds [PreferencesRepository] implementation.
+     */
     @Singleton
     @Provides
     fun bindPreferencesRepository(
         userPreferences: DataStore<Preferences>
     ): PreferencesRepository = PreferencesDataSource(userPreferences)
 
+    /**
+     * Binds [ChatRepository] implementation.
+     */
     @Singleton
     @Provides
     fun bindChatRepository(

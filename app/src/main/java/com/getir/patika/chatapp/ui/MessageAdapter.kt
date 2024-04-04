@@ -12,11 +12,17 @@ import com.getir.patika.chatapp.databinding.ItemLoadingBinding
 import com.getir.patika.chatapp.databinding.ItemMessageModelBinding
 import com.getir.patika.chatapp.databinding.ItemMessageUserBinding
 
+/**
+ * Sealed class representing different types of chat items.
+ */
 sealed class ChatItem {
     data class ChatMessage(val message: Message) : ChatItem()
     data object Loading : ChatItem()
 }
 
+/**
+ * Adapter for displaying chat messages in a RecyclerView.
+ */
 class MessageAdapter : ListAdapter<ChatItem, RecyclerView.ViewHolder>(ItemDiff) {
 
     private val asyncListDiffer = AsyncListDiffer(this, ItemDiff)
@@ -57,10 +63,16 @@ class MessageAdapter : ListAdapter<ChatItem, RecyclerView.ViewHolder>(ItemDiff) 
         }
     }
 
+    /**
+     * Updates the data set with the provided list of messages.
+     */
     fun saveData(messages: List<ChatItem>) {
         asyncListDiffer.submitList(messages)
     }
 
+    /**
+     * Interface for binding chat view holders.
+     */
     interface BindableChatViewHolder {
         fun bind(message: Message)
     }
@@ -112,6 +124,9 @@ class MessageAdapter : ListAdapter<ChatItem, RecyclerView.ViewHolder>(ItemDiff) 
         private const val VIEW_TYPE_MODEL = 2
         private const val VIEW_TYPE_LOADING = 3
 
+        /**
+         * DiffUtil.ItemCallback implementation for comparing chat items.
+         */
         val ItemDiff = object : DiffUtil.ItemCallback<ChatItem>() {
             override fun areItemsTheSame(oldItem: ChatItem, newItem: ChatItem): Boolean {
                 if (oldItem is ChatItem.ChatMessage && newItem is ChatItem.ChatMessage) {

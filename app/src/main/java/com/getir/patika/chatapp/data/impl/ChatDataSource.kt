@@ -18,12 +18,18 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+/**
+ * Implementation of [ChatRepository] interface.
+ */
 class ChatDataSource @Inject constructor(
     private val chatDao: ChatDao,
     private val geminiRepository: GeminiRepository,
     private val preferencesRepository: PreferencesRepository,
     private val ioDispatcher: CoroutineDispatcher
 ) : ChatRepository {
+    /**
+     * Sends a message to the chat.
+     */
     override suspend fun sendMessage(message: String): Result<Unit> =
         runCatchingWithContext(ioDispatcher) {
             val response = geminiRepository.getResponse(message).getOrThrow()
@@ -33,15 +39,24 @@ class ChatDataSource @Inject constructor(
             chatDao.insertMessage(modelMessageEntity)
         }
 
+    /**
+     * Saves a message to the database.
+     */
     override suspend fun saveMessageToDb(message: String): Result<Unit> =
         runCatchingWithContext(ioDispatcher) {
             val userMessageEntity = Message(message = message, role = Role.USER).toMessageEntity()
             chatDao.insertMessage(userMessageEntity)
         }
 
+    /**
+     * Retrieves all messages from the database.
+     */
     override fun getAllMessages(): Flow<List<Message>> =
         chatDao.getAllMessages().map { messages -> messages.map(MessageEntity::toMessage) }
 
+    /**
+     * Sends a model message for the first time.
+     */
     override suspend fun sendModelMessageForFirstTime() {
         val firstMessageState = preferencesRepository.getFirstMessageState()
         if (firstMessageState) return

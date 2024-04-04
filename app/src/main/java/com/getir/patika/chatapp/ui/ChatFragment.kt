@@ -26,15 +26,24 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
+/**
+ * Fragment for displaying and managing chat messages.
+ */
 @AndroidEntryPoint
 class ChatFragment : BaseFragment<FragmentChatBinding>() {
 
     private val viewModel: ChatViewModel by viewModels()
     private val adapter = MessageAdapter()
 
+    /**
+     * Inflates the layout and initializes the view binding.
+     */
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentChatBinding =
         FragmentChatBinding.inflate(inflater, container, false)
 
+    /**
+     * Initializes the views and sets up event listeners.
+     */
     override fun initializeViews() {
 
         val contentView = requireActivity().findViewById<View>(android.R.id.content)
@@ -63,6 +72,9 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         }
     }
 
+    /**
+     * Sets up the adapter for displaying messages.
+     */
     private fun FragmentChatBinding.setupAdapter() {
         rvMessages.adapter = adapter
         adapter.attachToRecyclerView(rvMessages)
@@ -74,6 +86,9 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         }
     }
 
+    /**
+     * Actions to be performed before sending a message.
+     */
     private fun FragmentChatBinding.beforeSendActions() {
         val focus = editTextMessage.findFocus()
         focus?.let { view ->
@@ -84,6 +99,9 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         }
     }
 
+    /**
+     * Observes changes in the text input field.
+     */
     private fun EditText.observeChanges() {
         doOnTextChanged { text, _, _, _ ->
             if (text != null) {
@@ -102,6 +120,9 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         }
     }
 
+    /**
+     * Provides a flow representing keyboard visibility.
+     */
     private fun View.keyboardVisibilityFlow(): Flow<Pair<Boolean, Int>> = callbackFlow {
         val globalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
             val rect = Rect()
@@ -119,6 +140,9 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         }
     }
 
+    /**
+     * Adjusts bottom margin of the chat box based on keyboard visibility.
+     */
     private fun FragmentChatBinding.handleBottomBarMagin(
         keypadHeight: Int,
         isVisible: Boolean
@@ -128,12 +152,18 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         llChatBox.requestLayout()
     }
 
+    /**
+     * Executes a coroutine block scoped to the fragment's lifecycle.
+     */
     private fun scopeWithLifecycle(block: suspend CoroutineScope.() -> Unit) {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED, block = block)
         }
     }
 
+    /**
+     * Cleans up resources when the fragment is destroyed.
+     */
     override fun onDestroy() {
         super.onDestroy()
         adapter.detachFromRecyclerView()

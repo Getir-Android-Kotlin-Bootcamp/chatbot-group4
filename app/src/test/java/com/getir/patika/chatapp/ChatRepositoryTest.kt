@@ -9,14 +9,23 @@ import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 
+/**
+ * Unit tests for [ChatRepository].
+ */
 class ChatRepositoryTest {
     private lateinit var chatRepository: ChatRepository
 
+    /**
+     * Set up the test environment before each test.
+     */
     @Before
     fun setUp() {
         chatRepository = FakeChatDataSource()
     }
 
+    /**
+     * Test to verify that sending a message adds it to the repository.
+     */
     @Test
     fun `sendMessage should add message to repository`() = runTest {
         val messageContent = "Hello, World!"
@@ -30,6 +39,9 @@ class ChatRepositoryTest {
         assertEquals(messageContent, messages.first().message)
     }
 
+    /**
+     * Test to verify that getAllMessages returns all messages in the repository.
+     */
     @Test
     fun `getAllMessages should return all messages`() = runTest {
         val messageContents = listOf("Hello", "World", "Test")
@@ -45,16 +57,21 @@ class ChatRepositoryTest {
         }
     }
 
+    /**
+     * Test to verify that getAllMessages returns an empty list when there are no messages.
+     */
     @Test
     fun `getAllMessages should return empty list when no messages`() = runTest {
         val result = chatRepository.getAllMessages()
-
 
         val messagesFlow = result
         val messages = messagesFlow.first()
         assertEquals(0, messages.size)
     }
 
+    /**
+     * Test to verify that sendMessage returns an error when the repository fails.
+     */
     @Test
     fun `sendMessage should return error when repository fails`() = runTest {
         val fakeChatDataSource = FakeChatDataSource(shouldFail = true)

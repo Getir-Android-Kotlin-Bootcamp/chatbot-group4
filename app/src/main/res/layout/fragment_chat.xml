@@ -6,12 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".ui.ChatFragment">
 
-
+    <!-- Main ConstraintLayout -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="8dp">
 
+        <!-- Back Button -->
         <ImageButton
             android:id="@+id/btn_back"
             android:layout_width="48dp"
@@ -26,6 +27,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Chat Title -->
         <TextView
             android:id="@+id/tv_chat"
             android:layout_width="wrap_content"
@@ -38,7 +40,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_back" />
 
-
+        <!-- Robot Button -->
         <ImageView
             android:id="@+id/btn_robot"
             android:layout_width="48dp"
@@ -50,6 +52,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_chat" />
 
+        <!-- Bell Button -->
         <ImageButton
             android:id="@+id/btn_ring"
             android:layout_width="48dp"
@@ -62,7 +65,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
+        <!-- RecyclerView for Messages -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_messages"
             android:layout_width="match_parent"
@@ -73,6 +76,7 @@
             app:layout_constraintBottom_toTopOf="@id/ll_chat_box"
             app:layout_constraintTop_toBottomOf="@id/btn_robot" />
 
+        <!-- Chat Box Layout -->
         <LinearLayout
             android:id="@+id/ll_chat_box"
             android:layout_width="match_parent"
@@ -81,6 +85,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
+            <!-- Attach Button -->
             <ImageButton
                 android:id="@+id/btn_attach"
                 android:layout_width="57dp"
@@ -88,6 +93,7 @@
                 android:background="@drawable/chat_box_link"
                 android:contentDescription="@string/chat_button" />
 
+            <!-- Message EditText -->
             <EditText
                 android:id="@+id/editTextMessage"
                 android:layout_width="0dp"
@@ -106,6 +112,7 @@
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
+            <!-- Send Button -->
             <ImageButton
                 android:id="@+id/sendButton"
                 android:layout_width="57dp"
@@ -117,6 +124,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
-
