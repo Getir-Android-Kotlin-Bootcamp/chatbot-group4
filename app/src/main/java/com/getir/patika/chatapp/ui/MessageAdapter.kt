@@ -12,28 +12,22 @@ import com.getir.patika.chatapp.databinding.ItemLoadingBinding
 import com.getir.patika.chatapp.databinding.ItemMessageModelBinding
 import com.getir.patika.chatapp.databinding.ItemMessageUserBinding
 
-sealed class ChatItem {
-    data class ChatMessage(val message: Message) : ChatItem()
-    data object Loading : ChatItem()
-}
-
-class MessageAdapter : ListAdapter<ChatItem, RecyclerView.ViewHolder>(ItemDiff) {
+class MessageAdapter : ListAdapter<Message, RecyclerView.ViewHolder>(ItemDiff) {
 
     private val asyncListDiffer = AsyncListDiffer(this, ItemDiff)
     override fun getItemCount(): Int = asyncListDiffer.currentList.size
 
-    override fun getItemViewType(position: Int): Int =
-        when (val chatItem = asyncListDiffer.currentList[position]) {
-            is ChatItem.ChatMessage -> {
-                if (chatItem.message.role == Role.USER) {
-                    VIEW_TYPE_USER
-                } else {
-                    VIEW_TYPE_MODEL
-                }
-            }
-
-            ChatItem.Loading -> VIEW_TYPE_LOADING
+    override fun getItemViewType(position: Int): Int {
+        val message = asyncListDiffer.currentList[position]
+        if (!message.isLoaded) {
+            return VIEW_TYPE_LOADING
         }
+        return if (message.role == Role.MODEL) {
+            VIEW_TYPE_MODEL
+        } else {
+            VIEW_TYPE_USER
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -57,7 +51,7 @@ class MessageAdapter : ListAdapter<ChatItem, RecyclerView.ViewHolder>(ItemDiff) 
         }
     }
 
-    fun saveData(messages: List<ChatItem>) {
+    fun saveData(messages: List<Message>) {
         asyncListDiffer.submitList(messages)
     }
 
@@ -83,9 +77,9 @@ class MessageAdapter : ListAdapter<ChatItem, RecyclerView.ViewHolder>(ItemDiff) 
         RecyclerView.ViewHolder(binding.root)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val chatItem = asyncListDiffer.currentList[position]
-        if (chatItem is ChatItem.ChatMessage) {
-            (holder as? BindableChatViewHolder)?.bind(chatItem.message)
+        val message = asyncListDiffer.currentList[position]
+        if (message.isLoaded) {
+            (holder as? BindableChatViewHolder)?.bind(message)
         }
     }
 
@@ -101,7 +95,7 @@ class MessageAdapter : ListAdapter<ChatItem, RecyclerView.ViewHolder>(ItemDiff) 
     }
 
     private val listUpdateCallback =
-        AsyncListDiffer.ListListener<ChatItem> { previousList, currentList ->
+        AsyncListDiffer.ListListener<Message> { previousList, currentList ->
             if (currentList.size > previousList.size) {
                 recyclerView?.scrollToPosition(currentList.size - 1)
             }
@@ -112,19 +106,13 @@ class MessageAdapter : ListAdapter<ChatItem, RecyclerView.ViewHolder>(ItemDiff) 
         private const val VIEW_TYPE_MODEL = 2
         private const val VIEW_TYPE_LOADING = 3
 
-        val ItemDiff = object : DiffUtil.ItemCallback<ChatItem>() {
-            override fun areItemsTheSame(oldItem: ChatItem, newItem: ChatItem): Boolean {
-                if (oldItem is ChatItem.ChatMessage && newItem is ChatItem.ChatMessage) {
-                    return oldItem.message.id == newItem.message.id
-                }
-                return false
+        val ItemDiff = object : DiffUtil.ItemCallback<Message>() {
+            override fun areItemsTheSame(oldItem: Message, newItem: Message): Boolean {
+                return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: ChatItem, newItem: ChatItem): Boolean {
-                if (oldItem is ChatItem.ChatMessage && newItem is ChatItem.ChatMessage) {
-                    return oldItem.message == newItem.message
-                }
-                return false
+            override fun areContentsTheSame(oldItem: Message, newItem: Message): Boolean {
+                return oldItem == newItem
             }
         }
     }

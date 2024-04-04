@@ -2,8 +2,6 @@ package com.getir.patika.chatapp.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.ai.client.generativeai.type.Content
-import com.google.ai.client.generativeai.type.content
 
 @Entity(tableName = "messages")
 data class MessageEntity(
@@ -12,7 +10,8 @@ data class MessageEntity(
     val messageId: String,
     val role: Role,
     val message: String,
-    val timestamp: Long
+    val timestamp: Long,
+    val isLoaded: Boolean
 )
 
 fun MessageEntity.toMessage(): Message =
@@ -20,8 +19,6 @@ fun MessageEntity.toMessage(): Message =
         id = this.messageId,
         role = this.role,
         message = this.message,
-        timestamp = this.timestamp
+        timestamp = this.timestamp,
+        isLoaded = isLoaded
     )
-
-fun MessageEntity.toContent(): Content =
-    content(role = this.role.name.lowercase()) { text(message) }

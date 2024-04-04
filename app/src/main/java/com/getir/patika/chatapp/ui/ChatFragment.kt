@@ -2,7 +2,6 @@ package com.getir.patika.chatapp.ui
 
 import android.content.Context
 import android.graphics.Rect
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,7 +39,6 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         val contentView = requireActivity().findViewById<View>(android.R.id.content)
 
         scopeWithLifecycle {
-            viewModel.observeMessages()
             viewModel.getFirstMessageState()
         }
 
@@ -68,7 +66,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         adapter.attachToRecyclerView(rvMessages)
 
         scopeWithLifecycle {
-            viewModel.messageState.collectLatest {
+            viewModel.messages.collectLatest {
                 adapter.saveData(it)
             }
         }

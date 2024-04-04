@@ -25,6 +25,7 @@ fun createRandomMessageEntity(): MessageEntity {
         messageId = messageId,
         role = role,
         message = message,
-        timestamp = timestamp
+        timestamp = timestamp,
+        isLoaded = true
     )
 }

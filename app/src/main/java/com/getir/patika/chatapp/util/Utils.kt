@@ -20,5 +20,5 @@ object Utils {
         
     """.trimIndent()
 
-    val ModelPreText = "Hello! my name is Food Couriers.\n You can ask me anything."
+    val ModelPreText = "Hello! my name is Food Couriers.\nYou can ask me anything."
 }
