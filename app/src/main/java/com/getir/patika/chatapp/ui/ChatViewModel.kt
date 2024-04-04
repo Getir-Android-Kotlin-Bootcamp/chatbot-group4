@@ -17,10 +17,14 @@ data class ChatUiState(
     val isTextFieldEnabled: Boolean = true
 )
 
+/**
+ * ViewModel for managing chat-related operations and UI state.
+ */
 @HiltViewModel
 class ChatViewModel @Inject constructor(
     private val chatRepository: ChatRepository
 ) : BaseViewModel() {
+
     private val _uiState = MutableStateFlow(ChatUiState())
     val uiState = _uiState.asStateFlow()
 
@@ -28,6 +32,9 @@ class ChatViewModel @Inject constructor(
         .getAllMessages()
         .stateIn(viewModelScope, started = SharingStarted.WhileSubscribed(5000), emptyList())
 
+    /**
+     * Updates the query in the UI state.
+     */
     fun onQueryChanged(query: String) {
         _uiState.update { it.copy(query = query) }
     }
@@ -36,6 +43,9 @@ class ChatViewModel @Inject constructor(
         chatRepository.sendModelMessageForFirstTime()
     }
 
+    /**
+     * Sends a message.
+     */
     fun onSend(message: String) {
         _uiState.update { it.copy(isTextFieldEnabled = false) }
         viewModelScope.launch {

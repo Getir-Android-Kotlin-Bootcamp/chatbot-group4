@@ -8,10 +8,16 @@ import com.google.ai.client.generativeai.GenerativeModel
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
+/**
+ * Implementation of [GeminiRepository] interface.
+ */
 class GeminiDataSource @Inject constructor(
     private val generativeModel: GenerativeModel,
     private val ioDispatcher: CoroutineDispatcher
 ) : GeminiRepository {
+    /**
+     * Gets a response from Gemini based on the given message.
+     */
     override suspend fun getResponse(message: String): Result<String> =
         runCatchingWithContext(ioDispatcher) {
             val chat = generativeModel.startChat()

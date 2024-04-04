@@ -1,24 +1,29 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Dot 1 -->
     <View
         android:id="@+id/dot1"
         android:layout_width="10dp"
         android:layout_height="10dp" />
 
+    <!-- Dot 2 -->
     <View
         android:id="@+id/dot2"
         android:layout_width="10dp"
         android:layout_height="10dp" />
 
+    <!-- Dot 3 -->
     <View
         android:id="@+id/dot3"
         android:layout_width="10dp"
         android:layout_height="10dp" />
 
+    <!-- Dot 4 -->
     <View
         android:id="@+id/dot4"
         android:layout_width="10dp"
         android:layout_height="10dp" />
 
+    <!-- Dot 5 -->
     <View
         android:id="@+id/dot5"
         android:layout_width="10dp"

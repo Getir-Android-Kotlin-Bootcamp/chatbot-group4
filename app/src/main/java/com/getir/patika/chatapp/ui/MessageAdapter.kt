@@ -51,10 +51,16 @@ class MessageAdapter : ListAdapter<Message, RecyclerView.ViewHolder>(ItemDiff) {
         }
     }
 
+    /**
+     * Updates the data set with the provided list of messages.
+     */
     fun saveData(messages: List<Message>) {
         asyncListDiffer.submitList(messages)
     }
 
+    /**
+     * Interface for binding chat view holders.
+     */
     interface BindableChatViewHolder {
         fun bind(message: Message)
     }
@@ -108,6 +114,9 @@ class MessageAdapter : ListAdapter<Message, RecyclerView.ViewHolder>(ItemDiff) {
         private const val VIEW_TYPE_MODEL = 2
         private const val VIEW_TYPE_LOADING = 3
 
+        /**
+         * DiffUtil.ItemCallback implementation for comparing chat items.
+         */
         val ItemDiff = object : DiffUtil.ItemCallback<Message>() {
             override fun areItemsTheSame(oldItem: Message, newItem: Message): Boolean {
                 return oldItem.id == newItem.id

@@ -11,10 +11,18 @@ import com.getir.patika.chatapp.ui.ChatFragment
 import com.getir.patika.chatapp.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * Main activity of the application.
+ */
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
+
+    /**
+     * Initializes the activity.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -32,6 +40,9 @@ class MainActivity : AppCompatActivity() {
         handleInsets()
     }
 
+    /**
+     * Handles window insets.
+     */
     private fun handleInsets() {
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
