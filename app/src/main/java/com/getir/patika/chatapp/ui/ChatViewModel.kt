@@ -4,18 +4,18 @@ import androidx.lifecycle.viewModelScope
 import com.getir.patika.chatapp.data.ChatRepository
 import com.getir.patika.chatapp.data.model.Message
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class ChatUiState(
     val query: String = "",
-    val isLoading: Boolean = false
+    val isTextFieldEnabled: Boolean = true
 )
 
 @HiltViewModel
@@ -25,28 +25,44 @@ class ChatViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(ChatUiState())
     val uiState = _uiState.asStateFlow()
 
-    val messages: StateFlow<List<Message>> =
-        chatRepository
-            .getAllMessages()
-            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), listOf())
-
-    private val query
-        get() = uiState.value.query
+    private val _messageState = MutableStateFlow(listOf<ChatItem>())
+    val messageState = _messageState.asStateFlow()
 
     fun onQueryChanged(query: String) {
         _uiState.update { it.copy(query = query) }
     }
 
-    private var sendJob: Job? = null
-    fun onSend() {
-        _uiState.update { it.copy(isLoading = true) }
-        println("Sending message: $query")
-        sendJob = launchCatching {
-            chatRepository.sendMessage(query).onFailure {
-                println("Failed to send message: ${it.message}")
+    fun observeMessages() = launchCatching {
+        chatRepository.getAllMessages()
+            .map { it.map<Message, ChatItem> { message: Message -> ChatItem.ChatMessage(message) } }
+            .collectLatest { chatItems ->
+                val lastItem = _messageState.value.lastOrNull()
+                if (lastItem is ChatItem.Loading) {
+                    _messageState.update { it.dropLast(1) }
+                }
+                _messageState.update { chatItems }
             }
+    }
+
+    fun getFirstMessageState() = launchCatching {
+        chatRepository.sendModelMessageForFirstTime()
+    }
+
+    fun onSend(message: String) {
+        _uiState.update { it.copy(isTextFieldEnabled = false) }
+        viewModelScope.launch {
+            chatRepository.saveMessageToDb(message).getOrThrow()
+
+            _messageState.update { it + ChatItem.Loading }
+
+            delay(3000L)
+
+            chatRepository.sendMessage(message)
+                .onFailure {
+                    _messageState.update { it.dropLast(1) }
+                }
+
+            _uiState.update { it.copy(isTextFieldEnabled = true) }
         }
-        println("Message sent: $query")
-        _uiState.update { it.copy(isLoading = false) }
     }
 }

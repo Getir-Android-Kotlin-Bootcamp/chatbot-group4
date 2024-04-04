@@ -60,4 +60,5 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
     api(libs.kotlinx.coroutines.test)
+    implementation(libs.datastore.preferences)
 }

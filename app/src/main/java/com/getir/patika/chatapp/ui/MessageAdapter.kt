@@ -57,25 +57,8 @@ class MessageAdapter : ListAdapter<ChatItem, RecyclerView.ViewHolder>(ItemDiff) 
         }
     }
 
-    fun saveData(messages: List<Message>) {
-        val chatMessages = messages.map { ChatItem.ChatMessage(it) }
-        asyncListDiffer.submitList(chatMessages)
-    }
-
-    fun showLoadingIndicator() {
-        asyncListDiffer.currentList.toMutableList().apply {
-            add(ChatItem.Loading)
-        }.let {
-            asyncListDiffer.submitList(it)
-        }
-    }
-
-    fun hideLoadingIndicator() {
-        asyncListDiffer.currentList.toMutableList().apply {
-            remove(ChatItem.Loading)
-        }.let {
-            asyncListDiffer.submitList(it)
-        }
+    fun saveData(messages: List<ChatItem>) {
+        asyncListDiffer.submitList(messages)
     }
 
     interface BindableChatViewHolder {
@@ -96,6 +79,9 @@ class MessageAdapter : ListAdapter<ChatItem, RecyclerView.ViewHolder>(ItemDiff) 
         }
     }
 
+    inner class LoadingViewHolder(binding: ItemLoadingBinding) :
+        RecyclerView.ViewHolder(binding.root)
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val chatItem = asyncListDiffer.currentList[position]
         if (chatItem is ChatItem.ChatMessage) {
@@ -103,8 +89,23 @@ class MessageAdapter : ListAdapter<ChatItem, RecyclerView.ViewHolder>(ItemDiff) 
         }
     }
 
-    inner class LoadingViewHolder(binding: ItemLoadingBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    private var recyclerView: RecyclerView? = null
+    fun attachToRecyclerView(recyclerView: RecyclerView) {
+        this.recyclerView = recyclerView
+        asyncListDiffer.addListListener(listUpdateCallback)
+    }
+
+    fun detachFromRecyclerView() {
+        asyncListDiffer.removeListListener(listUpdateCallback)
+        this.recyclerView = null
+    }
+
+    private val listUpdateCallback =
+        AsyncListDiffer.ListListener<ChatItem> { previousList, currentList ->
+            if (currentList.size > previousList.size) {
+                recyclerView?.scrollToPosition(currentList.size - 1)
+            }
+        }
 
     companion object {
         private const val VIEW_TYPE_USER = 1

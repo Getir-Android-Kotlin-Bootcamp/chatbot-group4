@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:background="@drawable/bg_chat_bubble_user"
-        android:fontFamily="@font/roboto_medium"
         android:maxWidth="280dp"
         android:paddingHorizontal="10dp"
         android:paddingVertical="12dp"

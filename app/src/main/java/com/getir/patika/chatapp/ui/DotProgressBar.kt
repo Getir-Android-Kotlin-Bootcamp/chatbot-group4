@@ -83,9 +83,4 @@ class DotProgressBar @JvmOverloads constructor(
     fun stopAnimation() {
         scope.cancel()
     }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        stopAnimation()
-    }
 }
