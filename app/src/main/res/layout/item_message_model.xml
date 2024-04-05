@@ -13,7 +13,7 @@
         android:maxWidth="280dp"
         android:paddingHorizontal="10dp"
         android:paddingVertical="12dp"
-        android:textColor="@color/black"
+        android:textColor="?attr/colorOnSecondaryContainer"
         android:textSize="14sp"
         tools:text="Hello Again ITs me!Hello Again ITs me!Hello Again ITs me!Hello Again ITs me!Hello Again ITs me!Hello Again ITs me!Hello Again ITs me!Hello Again ITs me!" />
 

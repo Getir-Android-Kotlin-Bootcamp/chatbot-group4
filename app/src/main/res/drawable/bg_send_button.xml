@@ -2,10 +2,10 @@
     android:color="#ffe1e1">
     <item>
         <shape>
-            <solid android:color="#F9FAFB" />
+            <solid android:color="?attr/colorTertiaryContainer" />
             <corners
-                android:bottomRightRadius="4dp"
-                android:topRightRadius="4dp" />
+                android:bottomRightRadius="8dp"
+                android:topRightRadius="8dp" />
         </shape>
     </item>
 </ripple>

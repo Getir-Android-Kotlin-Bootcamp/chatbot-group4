@@ -88,17 +88,18 @@
             <!-- Attach Button -->
             <ImageButton
                 android:id="@+id/btn_attach"
-                android:layout_width="57dp"
-                android:layout_height="57dp"
-                android:background="@drawable/chat_box_link"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/button_gradient"
+                android:src="@drawable/ic_link"
                 android:contentDescription="@string/chat_button" />
 
             <!-- Message EditText -->
             <EditText
                 android:id="@+id/editTextMessage"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:autofillHints="name"
                 android:background="@drawable/bg_chat_box"
@@ -108,15 +109,15 @@
                 android:inputType="text"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="16dp"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorOnTertiaryContainer"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
             <!-- Send Button -->
             <ImageButton
                 android:id="@+id/sendButton"
-                android:layout_width="57dp"
-                android:layout_height="57dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:background="@drawable/bg_send_button"
                 android:contentDescription="@string/send_button"
                 android:src="@drawable/ic_arrow" />
