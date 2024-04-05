@@ -49,9 +49,9 @@ class ChatViewModel @Inject constructor(
     fun onSend(message: String) = launchCatching {
         _uiState.update { it.copy(isTextFieldEnabled = false) }
 
-        chatRepository.saveMessageToDb(message).getOrThrow()
+        chatRepository.saveMessageToDb(message)
 
-        chatRepository.sendMessage(message).getOrThrow()
+        chatRepository.sendMessage(message)
 
         _uiState.update { it.copy(isTextFieldEnabled = true) }
     }

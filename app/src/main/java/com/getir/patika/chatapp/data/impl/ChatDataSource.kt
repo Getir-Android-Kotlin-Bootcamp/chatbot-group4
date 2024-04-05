@@ -35,7 +35,7 @@ class ChatDataSource @Inject constructor(
             val modelMessageId = chatDao.insertMessage(modelMessage).toInt()
 
             val response = geminiRepository.getResponse(message).getOrElse {
-                chatDao.deleteMessage(modelMessageId)
+                chatDao.updateMessage(modelMessageId, it.message ?: GENERIC_ERROR, true)
                 throw it
             }
 
@@ -67,5 +67,9 @@ class ChatDataSource @Inject constructor(
         val modelMessageEntity = Message(message = MODEL_PRE_TEXT, isLoaded = true).toMessageEntity()
         chatDao.insertMessage(modelMessageEntity)
         preferencesRepository.setFirstMessageState(true)
+    }
+
+    companion object {
+        private const val GENERIC_ERROR = "Something went wrong. Please try again."
     }
 }
