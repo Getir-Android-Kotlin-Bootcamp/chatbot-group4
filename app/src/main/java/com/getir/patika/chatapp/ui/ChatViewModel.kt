@@ -46,16 +46,13 @@ class ChatViewModel @Inject constructor(
     /**
      * Sends a message.
      */
-    fun onSend(message: String) {
+    fun onSend(message: String) = launchCatching {
         _uiState.update { it.copy(isTextFieldEnabled = false) }
-        viewModelScope.launch {
-            chatRepository.saveMessageToDb(message).getOrThrow()
 
-            chatRepository.sendMessage(message).onFailure {
-                Log.e("ChatViewModel", "Failed to send message", it)
-            }
+        chatRepository.saveMessageToDb(message).getOrThrow()
 
-            _uiState.update { it.copy(isTextFieldEnabled = true) }
-        }
+        chatRepository.sendMessage(message).getOrThrow()
+
+        _uiState.update { it.copy(isTextFieldEnabled = true) }
     }
 }

@@ -49,8 +49,7 @@ class ChatRepositoryTest {
 
         val result = chatRepository.getAllMessages()
 
-        val messagesFlow = result
-        val messages = messagesFlow.first()
+        val messages = result.first()
         assertEquals(messageContents.size, messages.size)
         messageContents.forEachIndexed { index, content ->
             assertEquals(content, messages[index].message)
@@ -64,8 +63,7 @@ class ChatRepositoryTest {
     fun `getAllMessages should return empty list when no messages`() = runTest {
         val result = chatRepository.getAllMessages()
 
-        val messagesFlow = result
-        val messages = messagesFlow.first()
+        val messages = result.first()
         assertEquals(0, messages.size)
     }
 

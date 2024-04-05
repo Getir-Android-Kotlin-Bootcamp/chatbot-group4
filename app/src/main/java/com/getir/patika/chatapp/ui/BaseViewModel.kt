@@ -1,6 +1,5 @@
 package com.getir.patika.chatapp.ui
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -28,7 +27,8 @@ open class BaseViewModel : ViewModel() {
     fun launchCatching(block: suspend CoroutineScope.() -> Unit) =
         viewModelScope.launch(
             CoroutineExceptionHandler { _, throwable ->
-                Log.e("BaseViewModel", "An error occurred", throwable)
+                // for debug purposes
+                println("An error occurred: $throwable")
             },
             block = block
         )
