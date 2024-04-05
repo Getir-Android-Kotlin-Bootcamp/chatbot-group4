@@ -13,13 +13,14 @@ The ChatApp allows users to:
 - Messages are displayed using a RecyclerView for efficient list rendering.
 - Loading Animation is displayed while retrieving message from Gemini AI.
 
-## Screenshots
+## Screenshots and demonstration
 
-<p align="center">
+
+https://github.com/Getir-Android-Kotlin-Bootcamp/chatbot-group4/assets/71898275/451c6252-d66d-41f8-8a42-aa521535fa79
+
   <img src="https://github.com/Getir-Android-Kotlin-Bootcamp/chatbot-group4/assets/71898275/8e770632-cd86-4afc-91d2-4d894388f067" width="20%"></img>
   <img src="https://github.com/Getir-Android-Kotlin-Bootcamp/chatbot-group4/assets/71898275/3e2dfacd-bd30-4099-a40b-d0144b298625" width="20%"></img>
   <img src="https://github.com/Getir-Android-Kotlin-Bootcamp/chatbot-group4/assets/71898275/3cc5549c-5e26-44f3-836f-36ccbebb2512" width="20%"></img>
-</p>
 
 ## Installation
 
