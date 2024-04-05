@@ -16,11 +16,13 @@ import com.getir.patika.chatapp.databinding.FragmentChatBinding
 import com.getir.patika.chatapp.ext.keyboardVisibilityFlow
 import com.getir.patika.chatapp.ext.makeToast
 import dagger.hilt.android.AndroidEntryPoint
+import io.noties.markwon.Markwon
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * Fragment for displaying and managing chat messages.
@@ -29,7 +31,11 @@ import kotlinx.coroutines.launch
 class ChatFragment : BaseFragment<FragmentChatBinding>() {
 
     private val viewModel: ChatViewModel by viewModels()
-    private val adapter = MessageAdapter()
+
+    @Inject
+    lateinit var markwon: Markwon
+
+    private lateinit var adapter: MessageAdapter
 
     /**
      * Inflates the layout and initializes the view binding.
@@ -81,6 +87,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
      * Sets up the adapter for displaying messages.
      */
     private fun FragmentChatBinding.setupAdapter() {
+        adapter = MessageAdapter(markwon)
         rvMessages.adapter = adapter
         adapter.attachToRecyclerView(rvMessages)
 

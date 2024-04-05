@@ -11,8 +11,10 @@ import com.getir.patika.chatapp.data.model.Role
 import com.getir.patika.chatapp.databinding.ItemLoadingBinding
 import com.getir.patika.chatapp.databinding.ItemMessageModelBinding
 import com.getir.patika.chatapp.databinding.ItemMessageUserBinding
+import io.noties.markwon.Markwon
 
-class MessageAdapter : ListAdapter<Message, RecyclerView.ViewHolder>(ItemDiff) {
+class MessageAdapter(private val markwon: Markwon) :
+    ListAdapter<Message, RecyclerView.ViewHolder>(ItemDiff) {
 
     private val asyncListDiffer = AsyncListDiffer(this, ItemDiff)
     override fun getItemCount(): Int = asyncListDiffer.currentList.size
@@ -75,7 +77,7 @@ class MessageAdapter : ListAdapter<Message, RecyclerView.ViewHolder>(ItemDiff) {
     inner class ModelViewHolder(private val binding: ItemMessageModelBinding) :
         RecyclerView.ViewHolder(binding.root), BindableChatViewHolder {
         override fun bind(message: Message) {
-            binding.tvModel.text = message.message
+            markwon.setMarkdown(binding.tvModel, message.message)
         }
     }
 

@@ -1,12 +1,14 @@
 package com.getir.patika.chatapp.data.di
 
 import android.content.Context
+import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
+import com.getir.patika.chatapp.R
 import com.getir.patika.chatapp.data.ChatRepository
 import com.getir.patika.chatapp.data.GeminiRepository
 import com.getir.patika.chatapp.data.PreferencesRepository
@@ -24,6 +26,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import io.noties.markwon.AbstractMarkwonPlugin
+import io.noties.markwon.Markwon
+import io.noties.markwon.core.MarkwonTheme
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -81,6 +86,31 @@ object AppModule {
             scope = CoroutineScope(Dispatchers.IO + SupervisorJob()),
             produceFile = { context.preferencesDataStoreFile(USER_PREFERENCES_NAME) }
         )
+    }
+
+    @Singleton
+    @Provides
+    fun provideMarkwon(@ApplicationContext context: Context): Markwon {
+        val plugin = object : AbstractMarkwonPlugin() {
+            override fun configureTheme(builder: MarkwonTheme.Builder) {
+                val resources = context.resources
+                builder
+                    .linkColor(ContextCompat.getColor(context, R.color.markdown_link))
+                    .blockQuoteColor(ContextCompat.getColor(context, R.color.markdown_blockquote))
+                    .bulletWidth(resources.getDimensionPixelSize(R.dimen.markdown_bullet_Width))
+                    .codeBlockTextColor(
+                        ContextCompat.getColor(context, R.color.markdown_code_block_text)
+                    )
+                    .codeBackgroundColor(
+                        ContextCompat.getColor(context, R.color.markdown_code_block_bg)
+                    )
+                    .isLinkUnderlined(false)
+            }
+        }
+        return Markwon
+            .builder(context)
+            .usePlugin(plugin)
+            .build()
     }
 
     /**

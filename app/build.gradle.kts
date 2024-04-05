@@ -34,11 +34,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 }
 
@@ -63,4 +63,5 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     api(libs.kotlinx.coroutines.test)
     implementation(libs.datastore.preferences)
+    implementation(libs.markwon.core)
 }

@@ -2,4 +2,15 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="markdown_text">#333333</color>
+    <color name="markdown_background">#FFFFFF</color>
+    <color name="markdown_link">#0645AD</color>
+    <color name="markdown_blockquote">#AAAAAA</color>
+    <color name="markdown_inline_code_bg">#F8F8F8</color>
+    <color name="markdown_inline_code_text">#D14</color>
+    <color name="markdown_code_block_bg">#F5F5F5</color>
+    <color name="markdown_code_block_text">#333333</color>
+    <color name="markdown_heading">#000000</color>
+    <color name="markdown_bullet">#333333</color>
+    <color name="markdown_list_item">#333333</color>
 </resources>
